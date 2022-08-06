@@ -1,0 +1,35 @@
+{
+    "os": "Windows-10-10.0.19041-SP0",
+    "python": "3.7.13",
+    "heartbeatAt": "2022-08-06T10:30:54.865519",
+    "startedAt": "2022-08-06T10:30:45.305288",
+    "docker": null,
+    "gpu": "GeForce RTX 2060",
+    "gpu_count": 1,
+    "cpu_count": 6,
+    "cuda": null,
+    "args": [
+        "--dataroot",
+        "images",
+        "--name",
+        "style_monet_pretrained",
+        "--model",
+        "test",
+        "--no_dropout",
+        "--use_wandb",
+        "--gpu_ids",
+        "-1"
+    ],
+    "state": "running",
+    "program": "test.py",
+    "codePath": "pytorch-CycleGAN-and-pix2pix\\test.py",
+    "git": {
+        "remote": "https://github.com/MISSUL-GAN/GAN_DeepLearning.git",
+        "commit": "9674535d7aa5f034c82acc27181e59c910bfead1"
+    },
+    "email": "myggona@gmail.com",
+    "root": "C:/missulgan/GAN_DeepLearning",
+    "host": "DESKTOP-PKSN0LD",
+    "username": "myggo",
+    "executable": "C:\\Users\\myggo\\.conda\\envs\\gan\\python.exe"
+}

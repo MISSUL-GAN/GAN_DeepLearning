@@ -11,8 +11,8 @@ if __name__ == '__main__':
     # hard-code some parameters for test
     opt.num_threads = 0   # test code only supports num_threads = 0
     opt.batch_size = 1    # test code only supports batch_size = 1
-    opt.serial_batches = True  # disable data shuffling; comment this line if results on randomly chosen images are needed.
-    opt.no_flip = True    # no flip; comment this line if results on flipped images are needed.
+    opt.serial_batches = True  # disable data shuffling; comment this line if results on randomly chosen images_cnn are needed.
+    opt.no_flip = True    # no flip; comment this line if results on flipped images_cnn are needed.
     opt.display_id = -1   # no visdom display; the test code saves the results to a HTML file.
     dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
     model = create_model(opt)      # create a model given opt.model and other options
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     if opt.eval:
         model.eval()
     for i, data in enumerate(dataset):
-        if i >= opt.num_test:  # only apply our model to opt.num_test images.
+        if i >= opt.num_test:  # only apply our model to opt.num_test images_cnn.
             break
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference

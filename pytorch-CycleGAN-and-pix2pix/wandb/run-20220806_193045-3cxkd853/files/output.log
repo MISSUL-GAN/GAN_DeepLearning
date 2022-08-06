@@ -1,0 +1,6 @@
+
+creating web directory ./results/style_monet_pretrained\test_latest
+Traceback (most recent call last):
+  File "test.py", line 64, in <module>
+    webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.name, opt.phase, opt.epoch))
+AttributeError: module 'html' has no attribute 'HTML'
