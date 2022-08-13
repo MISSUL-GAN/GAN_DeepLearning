@@ -11,6 +11,58 @@ import numpy as np
 
 from stylize import stylize
 
+def convert_cnn(origin_img, style_img):
+    key = "TF_CPP_MIN_LOG_LEVEL"
+    if key not in os.environ:
+        os.environ[key] = "2"
+
+    content_image = imread(origin_img)
+    style_images = [imread(style_img)]
+
+    style_blend_weights = [1.0 / len(style_images) for _ in style_images]
+
+    # try:
+    #     imsave("images_cnn/result8.jpg", np.zeros((500, 500, 3)))
+    # except:
+    #     raise IOError(
+    #         "result is not writable or does not have a valid file "
+    #         "extension for an image file"
+    #     )
+
+    loss_arrs = None
+    for iteration, image, loss_vals in stylize(
+            network="imagenet-vgg-verydeep-19.mat",
+            initial=None,
+            initial_noiseblend=1.0,
+            content=content_image,
+            styles=style_images,
+            preserve_colors=False,
+            iterations=100,
+            content_weight=5e0,
+            content_weight_blend=1,
+            style_weight=5e2,
+            style_layer_weight_exp=1,
+            style_blend_weights=style_blend_weights,
+            tv_weight=1e2,
+            learning_rate=1e1,
+            beta1=0.9,
+            beta2=0.999,
+            epsilon=1e-08,
+            pooling="max",
+            print_iterations=None,
+            checkpoint_iterations=None,
+    ):
+        if (loss_vals is not None):
+            if loss_arrs is None:
+                itr = []
+                loss_arrs = OrderedDict((key, []) for key in loss_vals.keys())
+            for key, val in loss_vals.items():
+                loss_arrs[key].append(val)
+            itr.append(iteration)
+
+    # imsave("images_cnn/result8.jpg", image)
+    return image
+
 def fmt_imsave(fmt, iteration):
     if re.match(r"^.*\{.*\}.*$", fmt):
         return fmt.format(iteration)
@@ -97,6 +149,7 @@ def imresize(arr, size):
         height = int(img.height * size)
     return np.array(img.resize((width, height)))
 
-
+"""
 if __name__ == "__main__":
     main()
+"""
