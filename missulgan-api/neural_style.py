@@ -37,7 +37,7 @@ def convert_cnn(origin_img, style_img):
             content=content_image,
             styles=style_images,
             preserve_colors=False,
-            iterations=100,
+            iterations=1000,
             content_weight=5e0,
             content_weight_blend=1,
             style_weight=5e2,
@@ -78,18 +78,10 @@ def main():
     if key not in os.environ:
         os.environ[key] = "2"
 
-    content_image = imread("images_cnn/origin1.jpg")
-    style_images = [imread("images_cnn/style1.jpg")]
+    content_image = imread("images_cnn/origin3.jpg")
+    style_images = [imread("images_cnn/style1-1.jpg")]
 
     style_blend_weights = [1.0 / len(style_images) for _ in style_images]
-
-    try:
-        imsave("images_cnn/result8.jpg", np.zeros((500, 500, 3)))
-    except:
-        raise IOError(
-            "result is not writable or does not have a valid file "
-            "extension for an image file"
-        )
 
     loss_arrs = None
     for iteration, image, loss_vals in stylize(
@@ -99,7 +91,7 @@ def main():
         content=content_image,
         styles=style_images,
         preserve_colors=False,
-        iterations=100,
+        iterations=1000,
         content_weight=5e0,
         content_weight_blend=1,
         style_weight=5e2,
@@ -122,7 +114,7 @@ def main():
                 loss_arrs[key].append(val)
             itr.append(iteration)
 
-    imsave("images_cnn/result8.jpg", image)
+    imsave("images_cnn/result6_1000.jpg", image)
 
 def imread(path):
     img = np.array(Image.open(path)).astype(np.float)

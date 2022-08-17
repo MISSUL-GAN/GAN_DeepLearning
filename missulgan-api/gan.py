@@ -5,6 +5,7 @@ from models import create_model
 from util.visualizer import save_images
 from util import html, util
 from PIL import Image
+import shutil
 
 def convert_gan(convert_tag, origin_img, token):
     opt = TestOptions().parse(convert_tag)  # get test options
@@ -37,25 +38,27 @@ def convert_gan(convert_tag, origin_img, token):
             im = util.tensor2im(im_data)
             image_pil = Image.fromarray(im)
             # image_pil.save(image_path)
-
+        deleteDataroot("testDir")
         return image_pil
 
 def createDataroot(data_path, data):
     os.mkdir(data_path)
     image = Image.open(data)
-    image.save(data_path + "/data.jpg")
+    image.save(data_path + "/data4.jpg")
 
+def deleteDataroot(data_path):
+    shutil.rmtree(data_path)
 """
 if __name__ == '__main__':
-    opt = TestOptions().parse("style_monet_pretrained")  # get test options
+    opt = TestOptions().parse("style_ukiyoe_pretrained")  # get test options
     # hard-code some parameters for test
     opt.num_threads = 0   # test code only supports num_threads = 0
     opt.batch_size = 1    # test code only supports batch_size = 1
     opt.serial_batches = True  # disable data shuffling; comment this line if results on randomly chosen images_cnn are needed.
     opt.no_flip = True    # no flip; comment this line if results on flipped images_cnn are needed.
     opt.display_id = -1   # no visdom display; the test code saves the results to a HTML file.
-    createDataroot("testDir1", "images_gan/origin1.jpg")
-    opt.dataroot = "testDir1"
+    createDataroot("testDir", "images_gan/origin2.jpg")
+    opt.dataroot = "testDir"
     dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
     model = create_model(opt)      # create a model given opt.model and other options
     model.setup(opt)               # regular setup: load and print networks; create schedulers
@@ -86,5 +89,6 @@ if __name__ == '__main__':
         if i % 5 == 0:  # save images_cnn to an HTML file
             print('processing (%04d)-th image... %s' % (i, img_path))
         save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize, use_wandb=opt.use_wandb)
+    deleteDataroot("testDir")
     webpage.save()  # save the HTML
 """
