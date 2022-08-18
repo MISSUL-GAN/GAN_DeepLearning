@@ -8,6 +8,7 @@ from PIL import Image
 import shutil
 
 def convert_gan(convert_tag, origin_img, token):
+    print(convert_tag)
     opt = TestOptions().parse(convert_tag)  # get test options
     # hard-code some parameters for test
     opt.num_threads = 0  # test code only supports num_threads = 0
@@ -32,19 +33,18 @@ def convert_gan(convert_tag, origin_img, token):
         img_path = model.get_image_paths()  # get image paths
         if i % 5 == 0:  # save images_cnn to an HTML file
             print('processing (%04d)-th image... %s' % (i, img_path))
-        save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize,
-                    use_wandb=opt.use_wandb)
         for label, im_data in visuals.items():
             im = util.tensor2im(im_data)
             image_pil = Image.fromarray(im)
-            # image_pil.save(image_path)
-        deleteDataroot("testDir")
+            #Image.open(image_pil) 
+            #image_pil.save('./test.jpg')
+        deleteDataroot(token)
         return image_pil
 
 def createDataroot(data_path, data):
     os.mkdir(data_path)
     image = Image.open(data)
-    image.save(data_path + "/data4.jpg")
+    image.save(data_path + "/data.jpg")
 
 def deleteDataroot(data_path):
     shutil.rmtree(data_path)
