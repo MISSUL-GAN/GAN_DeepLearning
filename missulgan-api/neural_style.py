@@ -10,7 +10,6 @@ from PIL import Image
 import numpy as np
 
 from stylize import stylize
-
 def convert_cnn(origin_img, style_img):
     key = "TF_CPP_MIN_LOG_LEVEL"
     if key not in os.environ:

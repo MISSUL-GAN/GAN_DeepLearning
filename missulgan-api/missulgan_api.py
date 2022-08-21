@@ -5,6 +5,8 @@ from gan import convert_gan
 import requests
 import io
 from PIL import Image
+import json
+import numpy as np
 
 app = Flask(__name__)
 
@@ -21,6 +23,7 @@ def convert_img():
     #origin_img = await origin_img.read()
     if convert_tag == "cnn":
         result_img = convert_cnn(origin_img, style_img)
+        result_img = Image.fromarray(np.uint8(result_img))
     else:
         if convert_tag == "8":
             convert_tag = "style_vangogh_pretrained"
@@ -33,13 +36,16 @@ def convert_img():
 
         result_img = convert_gan(convert_tag, origin_img, './'+token)
 
-    result_img.save('./result.jpg', 'JPEG') 
-    file = {'file': open('result.jpg', 'rb')}
+    result_img.save('./result.jpg','JPEG')
     access_token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwYXJrY2hlb2xAa2FrYW8uY29tIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY1OTUwODMwNCwiZXhwIjoxNjY5NTk0NzA0fQ.jaRKOC2eOS0y4skRiWdu65R4qAZnsse9Y441_zJPLAqawQlxxgHvc4VsSWKu_G4UyJGPMvDz1FB_zb1rua9jlQ'
     auth_header = {'Authorization': 'Bearer ' + access_token}
-    response = requests.post("https://api.missulgan.art/image/upload", file, headers = auth_header)
-    print(response)
-    return response.fileName
+    multipart_form_data = {'file': ('result.jpg', open('result.jpg', 'rb'), 'image/jpeg')}
+    response = requests.post('https://api.missulgan.art/image/upload', files=multipart_form_data, headers = auth_header)
+    
+    response_json = json.loads(response.text)
+    return response_json
+    #print(response_json)
+    #return response_json['fileName']
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
